@@ -1,24 +1,15 @@
-package edu.brandeis.cs.lingpipe;
+package edu.brandeis.cs.abner;
 
 import abner.Tagger;
-import com.aliasi.chunk.*;
-import com.aliasi.util.AbstractExternalizable;
 
-import com.aliasi.util.ScoredObject;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.lappsgrid.api.WebService;
 import org.lappsgrid.discriminator.Discriminators;
 import edu.brandeis.cs.json.JsonProxy;
-import edu.brandeis.cs.json2json.Json2Json;
 
-import javax.xml.stream.XMLOutputFactory;
-import javax.xml.stream.XMLStreamWriter;
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Iterator;
 
 /**
  * Created by lapps on 5/5/2015.

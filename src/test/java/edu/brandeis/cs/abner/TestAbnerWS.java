@@ -1,4 +1,4 @@
-package edu.brandeis.cs.lingpipe;
+package edu.brandeis.cs.abner;
 
 import org.junit.Test;
 
