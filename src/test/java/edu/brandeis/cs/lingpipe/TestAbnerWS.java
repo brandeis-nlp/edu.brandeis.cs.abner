@@ -15,7 +15,7 @@ public class TestAbnerWS {
 
     @Test
     public void testText() throws Exception {
-        System.out.println(lingpipe.execute("beautiful gene saf sas p53"));
+        System.out.println(lingpipe.execute("p53 regulates human insulin-like growth factor II gene expression through active P4 promoter in rhabdomyosarcoma cells."));
 
         //
         System.out.println(lingpipe.execute("{\"discriminator\":\"http://vocab.lappsgrid.org/ns/media/text\", \"payload\": \"beautiful gene saf sas p53\"}"));

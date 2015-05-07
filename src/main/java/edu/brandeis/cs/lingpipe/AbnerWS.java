@@ -62,61 +62,67 @@ public class AbnerWS implements WebService {
             payload.put("@context", "http://vocab.lappsgrid.org/context-1.0.0.jsonld");
             JsonProxy.JsonArray annsobj = JsonProxy.newArray();
 
-            String iob = taggerNLPBA.tagIOB(txt);
+            String sgml = taggerNLPBA.tagSGML(txt);
+            System.out.println(sgml);
             int start = 0;
             int end = 0;
             int id = 0;
-//            System.out.println("iob="+iob);
-            for (String wordAndTag : iob.split("\\n")) {
-                String [] arr = wordAndTag.split("\t");
-                String word = arr[0];
-                String tag = arr[1];
+            String[] arr = sgml.split("<");
+            for (String each: arr) {
+                if(!each.contains(">"))
+                    continue;;
+                if(each.startsWith("/"))
+                    continue;
+                String [] pair = each.split(">");
+                String word = pair[1].trim();
+                String tag = pair[0].trim();
                 start = txt.indexOf(word, end);
                 end = start + word.length();
 //                System.out.println("word="+word);
 //                System.out.println("Tag="+tag);
 //                System.out.println("Tag" + tag.equalsIgnoreCase("O"));
-                if(! tag.trim().equals("O")) {
-                    JsonProxy.JsonObject annobj = JsonProxy.newObject();
-                    annobj.put("id","ner"+id++);
-                    annobj.put("start", start);
-                    annobj.put("end", end);
-                    annobj.put("label", "http://vocab.lappsgrid.org/NamedEntity");
-                    JsonProxy.JsonObject features = JsonProxy.newObject();
-                    features.put("category", tag);
-                    features.put("word", word);
-                    annobj.put("features", features);
-                    annobj.put("label", "http://vocab.lappsgrid.org/NamedEntity");
-                    annsobj.add(annobj);
-                }
+                JsonProxy.JsonObject annobj = JsonProxy.newObject();
+                annobj.put("id","ner"+id++);
+                annobj.put("start", start);
+                annobj.put("end", end);
+                annobj.put("label", "http://vocab.lappsgrid.org/NamedEntity");
+                JsonProxy.JsonObject features = JsonProxy.newObject();
+                features.put("category", tag);
+                features.put("word", word);
+                annobj.put("features", features);
+                annobj.put("label", "http://vocab.lappsgrid.org/NamedEntity");
+                annsobj.add(annobj);
             }
 
-            iob = taggerBIOCR.tagIOB(txt);
+            sgml = taggerBIOCR.tagSGML(txt);
+            System.out.println(sgml);
             start = 0;
             end = 0;
-//            System.out.println("iob="+iob);
-            for (String wordAndTag : iob.split("\\n")) {
-                String [] arr = wordAndTag.split("\t");
-                String word = arr[0];
-                String tag = arr[1];
+            arr = sgml.split("<");
+            for (String each: arr) {
+                if(!each.contains(">"))
+                    continue;;
+                if(each.startsWith("/"))
+                    continue;
+                String [] pair = each.split(">");
+                String word = pair[1].trim();
+                String tag = pair[0].trim();
                 start = txt.indexOf(word, end);
                 end = start + word.length();
 //                System.out.println("word="+word);
 //                System.out.println("Tag="+tag);
 //                System.out.println("Tag" + tag.equalsIgnoreCase("O"));
-                if(! tag.trim().equals("O")) {
-                    JsonProxy.JsonObject annobj = JsonProxy.newObject();
-                    annobj.put("id","ner"+id++);
-                    annobj.put("start", start);
-                    annobj.put("end", end);
-                    annobj.put("label", "http://vocab.lappsgrid.org/NamedEntity");
-                    JsonProxy.JsonObject features = JsonProxy.newObject();
-                    features.put("category", tag);
-                    features.put("word", word);
-                    annobj.put("features", features);
-                    annobj.put("label", "http://vocab.lappsgrid.org/NamedEntity");
-                    annsobj.add(annobj);
-                }
+                JsonProxy.JsonObject annobj = JsonProxy.newObject();
+                annobj.put("id","ner"+id++);
+                annobj.put("start", start);
+                annobj.put("end", end);
+                annobj.put("label", "http://vocab.lappsgrid.org/NamedEntity");
+                JsonProxy.JsonObject features = JsonProxy.newObject();
+                features.put("category", tag);
+                features.put("word", word);
+                annobj.put("features", features);
+                annobj.put("label", "http://vocab.lappsgrid.org/NamedEntity");
+                annsobj.add(annobj);
             }
 
 
@@ -181,6 +187,7 @@ public class AbnerWS implements WebService {
 
 
     public String getXml(String text) throws Exception {
+        System.out.println(tagger.tagIOB(text));
         System.out.println(tagger.tagSGML(text));
         return tagger.tagABNER(text);
     }
